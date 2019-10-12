@@ -29,20 +29,22 @@ function resister() {
         random_R = shaObj.getHash("HEX");
         hoge = password + random_R;
 
-
-
-
+        /*
         var obj = {
             randR: random_R
         }
 
         JSON.stringify(obj);
+        */
 
-
+        //outputLogFile()
+        blobFile(random_R);
 
         shaObj.update(hoge);
         newpass = shaObj.getHash("HEX");
         newpass = newpass.slice(32);
+
+
 
         document.getElementById("name1").value = newpass;
         document.getElementById("password1").value = newpass;
@@ -50,3 +52,10 @@ function resister() {
         return true;
     }
 }
+
+/*
+function blobFile(str) {
+    const blob = new Blob([str], { type: 'text/plain' });
+    saveAs(blob, '.test');
+}
+*/
