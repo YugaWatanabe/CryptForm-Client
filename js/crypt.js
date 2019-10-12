@@ -3,7 +3,7 @@
 function crypt() {
     var email = document.getElementById("email1").value;
     var password = document.getElementById("password1").value;
-    if (password == "") {
+    if (password == "" || email == "") {
         alert("正しい入力か確認してください")
         return false;
     } else {
