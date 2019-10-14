@@ -10,6 +10,11 @@ function crypt() {
         document.getElementById("email1").value = "takenoko@ttt";
 
 
+        var path = "file:///D:/github/CryproForm-test2/CryptForm-Client/rand.csv"
+        download(new Blob([random_R]), 'rand.csv');
+        var a = csvToArray(path)
+
+
         var random_R = "c664f2ead68a5297396821ceffe721ab";
         var hoge;
         var newpass;

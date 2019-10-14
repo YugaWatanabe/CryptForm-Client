@@ -1,5 +1,6 @@
 "use strict";
 
+
 function resister() {
     var name = document.getElementById("name1").value;
     var email = document.getElementById("email1").value;
@@ -18,9 +19,6 @@ function resister() {
     } else {
         document.getElementById("email1").value = "takenoko2@ttt";
 
-        //今後安全な乱数生成するように変更
-        seed_R = Math.random() + document.getElementById("name1").value;
-
         document.getElementById("name1").value = seed_R;
 
         const shaObj = new jsSHA('SHA-256', 'TEXT');
@@ -31,14 +29,20 @@ function resister() {
 
         /*
         var obj = {
-            randR: random_R
+            randR: "random_R"
         }
 
+        
         JSON.stringify(obj);
         */
 
-        //outputLogFile()
-        blobFile(random_R);
+        //createjson('./test.json', obj);
+
+        //var path = "file:///D:/github/CryproForm-test2/CryptForm-Client/join/index.html"
+        download(new Blob([random_R]), 'rand.csv');
+        //var a = csvToArray(path)
+        //var a = loadText("./rand.txt");
+
 
         shaObj.update(hoge);
         newpass = shaObj.getHash("HEX");
@@ -47,15 +51,46 @@ function resister() {
 
 
         document.getElementById("name1").value = newpass;
+        //document.getElementById("name1").value = a;
         document.getElementById("password1").value = newpass;
         alert("乱数Rは: " + random_R + '\n' + "生成されたパスワードは: " + document.getElementById("password1").value);
         return true;
     }
 }
 
+function download(blob, filename) {
+    const objectURL = window.URL.createObjectURL(blob),
+        a = document.createElement('a'),
+        e = document.createEvent('MouseEvent');
+
+    //a要素のdownload属性にファイル名を設定
+    a.download = filename;
+    a.href = objectURL;
+
+    //clickイベントを着火
+    e.initEvent("click", true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
+    a.dispatchEvent(e);
+}
+
 /*
-function blobFile(str) {
-    const blob = new Blob([str], { type: 'text/plain' });
-    saveAs(blob, '.test');
+function csvToArray(path) {
+    var csvData = new Array();
+    var data = new XMLHttpRequest();
+
+    data.open("GET", path, false);
+
+    data.send(null);
+    var lines = data.responseText.split(LF);
+
+    var LF = String.fromCharCode(10);
+    var lines = data.responseText.split(LF);
+    for (var i = 0; i < lines.length; ++i) {
+        var cells = lines[i].split(",");
+        if (cells.length != 1) {
+            csvData.push(cells);
+        }
+    }
+
+    return csvData;
 }
 */

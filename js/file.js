@@ -1,23 +1,26 @@
-function outputLogFile() {
-    function error(e) {
-        alert("ERR!: " + e.name);
+function loadText(file) {
+    var request;
+    if (window.XMLHttpRequest) {
+        // IE7+, Firefox, Chrome, Opera, Safari
+        request = new XMLHttpRequest();
+    } else {
+        // code for IE6, IE5
+        request = new ActiveXObject('Microsoft.XMLHTTP');
     }
+    // load
+    request.open('GET', file, false);
+    request.send();
+    process(request.responseText);
+}
 
-    function writeFile(fs) {
-        fs.root.getFile('/log.txt', { create: true }, function(fileEntry) {
-            fileEntry.createWriter(function(fileWriter) {
-                fileWriter.onwriteend = function(e) {
-                    console.log('Write completed.');
-                };
-
-                fileWriter.onerror = function(e) {
-                    console.log('Write failed: ' + e.toString());
-                };
-
-                var output = new Blob(["this is log data"], { type: "text/plain" });
-                fileWriter.write(output);
-            }, error);
-        }, error);
+function process(txt) {
+    data = txt.split(/\r\n|\r|\n/);
+    for (i = 0; i < data.length; i++) {
+        if (data[i].indexOf(":") != -1) {
+            ID = data[i].substring(0, data[i].indexOf(":"));
+            TEXT = data[i].substr(data[i].indexOf(":") + 1);
+            obj = document.getElementById(ID);
+            obj.innerHTML = TEXT;
+        }
     }
-    window.webkitRequestFileSystem(window.TEMPORARY, 1024 * 1024, writeFile, error);
 }
