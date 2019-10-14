@@ -40,7 +40,7 @@ function resister() {
 
         //var path = "file:///D:/github/CryproForm-test2/CryptForm-Client/join/index.html"
         download(new Blob([random_R]), 'rand.csv');
-        //var a = csvToArray(path)
+        //var a = csvToArray('./rand.csv');
         //var a = loadText("./rand.txt");
 
 
@@ -72,7 +72,7 @@ function download(blob, filename) {
     a.dispatchEvent(e);
 }
 
-/*
+
 function csvToArray(path) {
     var csvData = new Array();
     var data = new XMLHttpRequest();
@@ -93,4 +93,3 @@ function csvToArray(path) {
 
     return csvData;
 }
-*/
