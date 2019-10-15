@@ -17,14 +17,19 @@ function resister() {
         alert("正しい入力か確認してください")
         return false;
     } else {
-        document.getElementById("email1").value = "takenoko2@ttt";
+        //document.getElementById("email1").value = "takenoko2@ttt";
 
-        document.getElementById("name1").value = seed_R;
+        //document.getElementById("name1").value = seed_R;
 
+        seed_R = Math.random() + email;
+
+        const shaObj_R = new jsSHA('SHA-256', 'TEXT');
         const shaObj = new jsSHA('SHA-256', 'TEXT');
 
-        shaObj.update("seed_R");
-        random_R = shaObj.getHash("HEX");
+
+        shaObj_R.update(seed_R);
+        random_R = shaObj_R.getHash("HEX");
+
         hoge = password + random_R;
 
         /*
@@ -43,22 +48,22 @@ function resister() {
         //var a = csvToArray('./rand.csv');
         //var a = loadText("./rand.txt");
 
-
         shaObj.update(hoge);
         newpass = shaObj.getHash("HEX");
         newpass = newpass.slice(32);
 
 
 
-        document.getElementById("name1").value = newpass;
+        //document.getElementById("name1").value = newpass;
 
         /*
         ipc.send('asynchronous-message', 'ping');
         ipc.on('test-reply', function(event, arg) {
             document.getElementById("name1").value = arg
         });
-        //document.getElementById("name1").value = a;
         */
+        //document.getElementById("name1").value = hoge;
+
         document.getElementById("password1").value = newpass;
         alert("乱数Rは: " + random_R + '\n' + "生成されたパスワードは: " + document.getElementById("password1").value);
         return true;

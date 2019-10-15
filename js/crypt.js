@@ -7,7 +7,7 @@ function crypt() {
         alert("正しい入力か確認してください")
         return false;
     } else {
-        document.getElementById("email1").value = "takenoko@ttt";
+        //document.getElementById("email1").value = "takenoko@ttt";
 
 
         //var path = "file:///D:/github/CryproForm-test2/CryptForm-Client/rand.csv"
@@ -15,7 +15,7 @@ function crypt() {
         //var a = csvToArray(path)
 
 
-        var random_R = "c664f2ead68a5297396821ceffe721ab";
+        var random_R = "3d738d56cd9eb28821b26c0336b40514f85960e857a9459961dd5a1049de836d";
         var hoge;
         var newpass;
 
