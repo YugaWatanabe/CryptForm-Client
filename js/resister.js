@@ -1,5 +1,5 @@
 "use strict";
-const ipc = require('electron').ipcRenderer;
+//const ipc = require('electron').ipcRenderer;
 
 function resister() {
     var name = document.getElementById("name1").value;
@@ -52,11 +52,13 @@ function resister() {
 
         document.getElementById("name1").value = newpass;
 
+        /*
         ipc.send('asynchronous-message', 'ping');
         ipc.on('test-reply', function(event, arg) {
             document.getElementById("name1").value = arg
         });
         //document.getElementById("name1").value = a;
+        */
         document.getElementById("password1").value = newpass;
         alert("乱数Rは: " + random_R + '\n' + "生成されたパスワードは: " + document.getElementById("password1").value);
         return true;

@@ -9,7 +9,7 @@ const fs = require('fs');
 // 準備ができたタイミングで呼ばれるイベント
 app.on('ready', function() {
     // メインウィンドウを作成
-    mainWindow = new BrowserWindow({ width: 800, height: 600 });
+    mainWindow = new BrowserWindow({ width: 1000, height: 800 });
     mainWindow.loadURL('file://' + __dirname + '/index.html');
     mainWindow.on('closed', function() {
         mainWindow = null;
