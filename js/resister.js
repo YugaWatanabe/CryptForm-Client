@@ -36,14 +36,16 @@ function resister() {
 
         hoge = password + random_R;
 
-
-        var obj = {
+        var jsonStr = {
+            id: email,
             randR: random_R,
         };
 
-        //createjson('test.json', obj);
-
         var db = fs.readFileSync("test.json", "utf-8");
+        var obj = JSON.parse(db);
+        obj['usr'].push(jsonStr);
+
+        //createjson('test.json', obj);
 
 
         fs.writeFileSync("test.json", JSON.stringify(obj, null, ""));
@@ -72,7 +74,7 @@ function resister() {
         //document.getElementById("name1").value = hoge;
 
         document.getElementById("password1").value = newpass;
-        alert("乱数Rは: " + random_R + '\n' + "生成されたパスワードは: " + document.getElementById("password1").value);
+        alert("乱数Rは: " + random_R + '\n' + "password+乱数Rは: " + hoge + '\n' + "生成されたパスワードは: " + document.getElementById("password1").value);
         return true;
     }
 }
