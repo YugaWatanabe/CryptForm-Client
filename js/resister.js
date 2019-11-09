@@ -1,4 +1,8 @@
 "use strict";
+
+var electron = require('electron');
+var remote = electron.remote;
+var fs = remote.require('fs');
 //const ipc = require('electron').ipcRenderer;
 
 function resister() {
@@ -32,16 +36,19 @@ function resister() {
 
         hoge = password + random_R;
 
-        /*
+
         var obj = {
-            randR: "random_R"
-        }
+            randR: random_R,
+        };
 
-        
-        JSON.stringify(obj);
-        */
+        //createjson('test.json', obj);
 
-        //createjson('./test.json', obj);
+        var db = fs.readFileSync("test.json", "utf-8");
+
+
+        fs.writeFileSync("test.json", JSON.stringify(obj, null, ""));
+
+        //fs.appendFile("test.json", JSON.stringify(obj, null, ""));
 
         //var path = "file:///D:/github/CryproForm-test2/CryptForm-Client/join/index.html"
         download(new Blob([random_R]), 'rand.csv');
@@ -83,6 +90,8 @@ function download(blob, filename) {
     e.initEvent("click", true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
     a.dispatchEvent(e);
 }
+
+
 
 
 function csvToArray(path) {

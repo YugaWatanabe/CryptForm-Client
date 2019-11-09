@@ -1,5 +1,9 @@
 "use strict";
 
+var electron = require('electron');
+var remote = electron.remote;
+var fs = remote.require('fs');
+
 function crypt() {
     var email = document.getElementById("email1").value;
     var password = document.getElementById("password1").value;
@@ -16,6 +20,10 @@ function crypt() {
 
 
         var random_R = "3d738d56cd9eb28821b26c0336b40514f85960e857a9459961dd5a1049de836d";
+
+        var obj = JSON.parse(fs.readFileSync('test.json', 'utf8'));
+        random_R = obj.randR;
+
         var hoge;
         var newpass;
 
