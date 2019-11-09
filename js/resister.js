@@ -1,5 +1,9 @@
 "use strict";
 
+var electron = require('electron');
+var remote = electron.remote;
+var fs = remote.require('fs');
+//const ipc = require('electron').ipcRenderer;
 
 function resister() {
     var name = document.getElementById("name1").value;
@@ -17,32 +21,41 @@ function resister() {
         alert("正しい入力か確認してください")
         return false;
     } else {
-        document.getElementById("email1").value = "takenoko2@ttt";
+        //document.getElementById("email1").value = "takenoko2@ttt";
 
-        document.getElementById("name1").value = seed_R;
+        //document.getElementById("name1").value = seed_R;
 
+        seed_R = Math.random() + email;
+
+        const shaObj_R = new jsSHA('SHA-256', 'TEXT');
         const shaObj = new jsSHA('SHA-256', 'TEXT');
 
-        shaObj.update("seed_R");
-        random_R = shaObj.getHash("HEX");
+
+        shaObj_R.update(seed_R);
+        random_R = shaObj_R.getHash("HEX");
+
         hoge = password + random_R;
 
-        /*
-        var obj = {
-            randR: "random_R"
-        }
+        var jsonStr = {
+            id: email,
+            randR: random_R,
+        };
 
-        
-        JSON.stringify(obj);
-        */
+        var db = fs.readFileSync("test.json", "utf-8");
+        var obj = JSON.parse(db);
+        obj['usr'].push(jsonStr);
 
-        //createjson('./test.json', obj);
+        //createjson('test.json', obj);
+
+
+        fs.writeFileSync("test.json", JSON.stringify(obj, null, ""));
+
+        //fs.appendFile("test.json", JSON.stringify(obj, null, ""));
 
         //var path = "file:///D:/github/CryproForm-test2/CryptForm-Client/join/index.html"
         download(new Blob([random_R]), 'rand.csv');
-        //var a = csvToArray(path)
+        //var a = csvToArray('./rand.csv');
         //var a = loadText("./rand.txt");
-
 
         shaObj.update(hoge);
         newpass = shaObj.getHash("HEX");
@@ -50,10 +63,18 @@ function resister() {
 
 
 
-        document.getElementById("name1").value = newpass;
-        //document.getElementById("name1").value = a;
+        //document.getElementById("name1").value = newpass;
+
+        /*
+        ipc.send('asynchronous-message', 'ping');
+        ipc.on('test-reply', function(event, arg) {
+            document.getElementById("name1").value = arg
+        });
+        */
+        //document.getElementById("name1").value = hoge;
+
         document.getElementById("password1").value = newpass;
-        alert("乱数Rは: " + random_R + '\n' + "生成されたパスワードは: " + document.getElementById("password1").value);
+        alert("乱数Rは: " + random_R + '\n' + "password+乱数Rは: " + hoge + '\n' + "生成されたパスワードは: " + document.getElementById("password1").value);
         return true;
     }
 }
@@ -72,7 +93,9 @@ function download(blob, filename) {
     a.dispatchEvent(e);
 }
 
-/*
+
+
+
 function csvToArray(path) {
     var csvData = new Array();
     var data = new XMLHttpRequest();
@@ -93,4 +116,3 @@ function csvToArray(path) {
 
     return csvData;
 }
-*/
