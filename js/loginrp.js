@@ -3,6 +3,7 @@
 var electron = require('electron');
 var remote = electron.remote;
 var fs = remote.require('fs');
+var CryptoJS = remote.require('crypto-js');
 
 function loginrp() {
     var email = document.getElementById("email1").value;
@@ -19,6 +20,7 @@ function loginrp() {
         //var a = csvToArray(path)
 
         var random_R;
+        var aesRand;
         //var random_R = "3d738d56cd9eb28821b26c0336b40514f85960e857a9459961dd5a1049de836d";
 
         var obj = JSON.parse(fs.readFileSync('test.json', 'utf8'));
@@ -27,13 +29,16 @@ function loginrp() {
 
         for (i = 0; i < usrs.length; i++) {
             if (email == usrs[i].id) {
-                random_R = usrs[i].randR;
+                aesRand = usrs[i].randR;
                 break;
             } else {
-                random_R = "";
+                aesRand = "";
             }
         }
 
+        var key = email + password; //今後もっと安全な情報にする
+
+        random_R = CryptoJS.AES.decrypt(aesRand, key).toString(CryptoJS.enc.Utf8);
 
         var hoge;
         var newpass;
@@ -47,7 +52,7 @@ function loginrp() {
         newpass = newpass.slice(32);
 
         document.getElementById("password1").value = newpass;
-        alert("乱数Rは: " + random_R + '\n' + "password+乱数Rは: " + hoge + '\n' + "生成されたパスワードは: " + document.getElementById("password1").value);
+        alert("AESrandRは: " + aesRand + '\n' + "乱数Rは: " + random_R + '\n' + "password+乱数Rは: " + hoge + '\n' + "生成されたパスワードは: " + document.getElementById("password1").value);
         return true;
     }
 }

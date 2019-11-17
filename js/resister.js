@@ -3,6 +3,7 @@
 var electron = require('electron');
 var remote = electron.remote;
 var fs = remote.require('fs');
+var CryptoJS = remote.require('crypto-js');
 //const ipc = require('electron').ipcRenderer;
 
 function resister() {
@@ -36,9 +37,14 @@ function resister() {
 
         hoge = password + random_R;
 
+        //ここはAESの処理
+        var key = email + password; //今後もっと安全な情報にする
+
+        // var aesRand = crypto.CryptoJS.AES.encrypt(aesRand, key, { iv: ive });
+        var aesRand = CryptoJS.AES.encrypt(random_R, key).toString();
         var jsonStr = {
             id: email,
-            randR: random_R,
+            randR: aesRand,
         };
 
         var db = fs.readFileSync("test.json", "utf-8");
@@ -74,7 +80,7 @@ function resister() {
         //document.getElementById("name1").value = hoge;
 
         document.getElementById("password1").value = newpass;
-        alert("乱数Rは: " + random_R + '\n' + "password+乱数Rは: " + hoge + '\n' + "生成されたパスワードは: " + document.getElementById("password1").value);
+        alert("AES乱数Rは: " + aesRand + '\n' + "乱数Rは: " + random_R + '\n' + "password+乱数Rは: " + hoge + '\n' + "生成されたパスワードは: " + document.getElementById("password1").value);
         return true;
     }
 }
