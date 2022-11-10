@@ -18,6 +18,6 @@
     },
     "homepage": "https://github.com/YugaWatanabe/CryptForm-Client#readme",
     "devDependencies": {
-        "electron": "^6.0.12"
+        "electron": "^18.3.7"
     }
 }
